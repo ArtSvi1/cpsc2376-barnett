@@ -62,7 +62,7 @@ void sumVec(const std::vector<int>& nums)
 		{
 			sum += num;
 		}
-		std::cout << "Sum of numbers in vector :" << sum << std::endl;
+		std::cout << "Sum of numbers in vector: " << sum << std::endl;
 	}
 }
 
