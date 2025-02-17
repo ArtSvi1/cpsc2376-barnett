@@ -9,9 +9,11 @@ namespace practice03test
 	TEST_CLASS(practice03test)
 	{
 	public:
+		MathUtils r;
 		
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(RangeScope)
 		{
+			Assert::AreEqual(6, r.sumRange(1,3));
 		}
 	};
 }
