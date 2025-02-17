@@ -3,6 +3,48 @@
 #include <iomanip>
 #include <string>
 
+double getDouble(const std::string& prompt) {
+    double input;
+
+    while (true) {
+        std::cout << prompt;
+        std::cin >> input;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+                '\n');
+            std::cout << "Invalid input. Please enter a float number.\n";
+        }
+        else if (input < 0) {
+            std::cout << "Invalid input. Please enter a positive float number.\n";
+        }
+        else {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return input;
+        }
+    }
+}
+
+int getInt(const std::string& prompt) {
+    int input;
+
+    while (true) {
+        std::cout << prompt;
+        std::cin >> input;
+
+        if (std::cin.fail() || input <= 0) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input. Please enter a positive integer.\n";
+        }
+        else {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return input;
+        }
+    }
+}
+
 void checkFile()
 {
     std::ifstream fin{ "account_balance.txt" };
@@ -115,10 +157,8 @@ int main()
         std::cout << "2. Deposit Money\n";
         std::cout << "3. Withdraw Money\n";
         std::cout << "4. Exit\n";
-        std::cout << "\nEnter your chioce: ";
 
-        int choice;
-        std::cin >> choice;
+        int choice = getInt("Enter your choice: ");
 
         if (choice < 1 || choice > 4)
         {
@@ -133,17 +173,13 @@ int main()
 
         if (choice == 2)
         {
-            std::cout << "Deposit amount: ";
-            double depo;
-            std::cin >> depo;
+            double depo = getDouble("Enter deposit amount: ");
             deposit(depo);
         }
 
         if (choice == 3)
         {
-            std::cout << "Withdraw amount: ";
-            double with;
-            std::cin >> with;
+            double with = getDouble("Enter withdrawal amount: ");
             withdraw(with);
         }
 
