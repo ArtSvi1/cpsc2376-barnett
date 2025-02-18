@@ -13,8 +13,8 @@ public:
     }
 
     static bool containsNegative(const std::vector<int>& numbers) {
-        for (size_t i = 0; i <= numbers.size(); i++) { // Bug
-            if (numbers[i] > 0) { // Bug
+        for (size_t i = 0; i < numbers.size(); i++) {
+            if (numbers[i] < 0) {
                 return true;
             }
         }
