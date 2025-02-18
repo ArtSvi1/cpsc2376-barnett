@@ -23,9 +23,23 @@ namespace practice03test
 		{
 			Assert::AreEqual(-6, r.sumRange(-3, -1));
 		}
-		TEST_METHOD(containsNegativeLogic)
+		TEST_METHOD(containsNegativePositiveNums)
 		{
 			std::vector<int> nums{ 1,2,3 };
+			Assert::AreEqual(false, r.containsNegative(nums));
+		}
+		TEST_METHOD(containsNegativeNegativeNums)
+		{
+			std::vector<int> nums1{ -1,-2,-3 };
+			std::vector<int> nums2{ -1,2,-3 };
+			std::vector<int> nums3{ 1,2,-3 };
+			Assert::AreEqual(true, r.containsNegative(nums1));
+			Assert::AreEqual(true, r.containsNegative(nums2));
+			Assert::AreEqual(true, r.containsNegative(nums3));
+		}
+		TEST_METHOD(containsNegativeEmptyVec)
+		{
+			std::vector<int> nums;
 			Assert::AreEqual(false, r.containsNegative(nums));
 		}
 	};

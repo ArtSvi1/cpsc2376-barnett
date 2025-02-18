@@ -13,6 +13,11 @@ public:
     }
 
     static bool containsNegative(const std::vector<int>& numbers) {
+        if (numbers.empty()) {
+            std::cerr << "Error: The input vector is empty." << std::endl;
+            return false;
+        }
+
         for (size_t i = 0; i < numbers.size(); i++) {
             if (numbers[i] < 0) {
                 return true;
