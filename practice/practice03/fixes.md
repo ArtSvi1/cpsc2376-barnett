@@ -23,6 +23,5 @@ containsNegative function:
 findMax function:
 	
 	Bug: when given an empty vector, the function returns a max value of 0 which is not true.
-	Fix: included climits to use the INT_MIN from its library as use for handling an empty vector, then added logic to
-		 main to send a special message saying "Max Number could not be detemined.".
+	Fix: included climits to use the INT_MIN from its library as use for handling an empty vector, then added logic to main to send a special message saying "Max Number could not be detemined.".
 		Test Passed
