@@ -42,5 +42,10 @@ namespace practice03test
 			std::vector<int> nums;
 			Assert::AreEqual(false, r.containsNegative(nums));
 		}
+		TEST_METHOD(findMaxEmptyVec)
+		{
+			std::vector<int> nums;
+			Assert::AreEqual(INT_MIN, r.findMax(nums));
+		}
 	};
 }
