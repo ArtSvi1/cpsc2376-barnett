@@ -8,7 +8,7 @@ sumRange function:
 
 containsNegative function:
 
-	Bug: loop goes out of scope. Causes undefined behavior due to using [] for indexing.
+	Bug: for loop goes out of scope. Causes undefined behavior due to using [] for indexing.
 	Fix: removed the = from the i <= numbers.size() to be i < numbers.size().
 		Test Passed
 
@@ -24,4 +24,12 @@ findMax function:
 	
 	Bug: when given an empty vector, the function returns a max value of 0 which is not true.
 	Fix: included climits to use the INT_MIN from its library as use for handling an empty vector, then added logic to main to send a special message saying "Max Number could not be detemined.".
+		Test Passed
+
+	Bug: for loop goes out of scope. Causes undefined behavior due to using [] for indexing.
+	Fix: removed the = from the i <= numbers.size() to be i < numbers.size().
+		Test Passed
+
+	Bug: maxValue was reassigned each time the number was the same in the vector as what was assigned as the maxValue. Extra actions for no change in value.
+	Fix: changed logic to only reassign if the int is larger than current maxValue.
 		Test Passed

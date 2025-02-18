@@ -33,8 +33,8 @@ public:
             return INT_MIN;
         }
         int maxVal = numbers[0];
-        for (size_t i = 1; i <= numbers.size(); i++) { // Bug
-            if (numbers[i] >= maxVal) { // Bug
+        for (size_t i = 1; i < numbers.size(); i++) {
+            if (numbers[i] > maxVal) {
                 maxVal = numbers[i];
             }
         }

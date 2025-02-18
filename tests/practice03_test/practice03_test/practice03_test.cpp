@@ -47,5 +47,19 @@ namespace practice03test
 			std::vector<int> nums;
 			Assert::AreEqual(INT_MIN, r.findMax(nums));
 		}
+		TEST_METHOD(findMaxNormalVecs)
+		{
+			std::vector<int> nums1{ -1,-2,-3 };
+			std::vector<int> nums2{ -1,2,-3 };
+			std::vector<int> nums3{ 1,-2,3 };
+			Assert::AreEqual(-1, r.findMax(nums1));
+			Assert::AreEqual(2, r.findMax(nums2));
+			Assert::AreEqual(3, r.findMax(nums3));
+		}
+		TEST_METHOD(findMaxSameNums)
+		{
+			std::vector<int> nums{ 5,5,5,5,5,5 };
+			Assert::AreEqual(5, r.findMax(nums));
+		}
 	};
 }
