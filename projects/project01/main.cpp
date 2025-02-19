@@ -106,7 +106,7 @@ void printBoard(const std::vector<std::vector<Piece>>& board) {
     std::cout << " 1  2  3  4  5  6  7" << std::endl;
 }
 
-void play(std::vector<std::vector<Piece>>& board, int column) {
+Piece getCurrentPlayer(const std::vector<std::vector<Piece>>& board) {
     int numX{ 0 }, numO{ 0 };
 
     for (int row = 0; row < ROWS; ++row) {
@@ -121,20 +121,40 @@ void play(std::vector<std::vector<Piece>>& board, int column) {
     }
     Piece player;
 
-    if (numX == 0 || numX > numO) {
-        player = Piece::Player1;
+    if (numX == 0 || numX == numO) {
+        return Piece::Player1;
     }
     else {
-        player = Piece::Player2;
+        return Piece::Player2;
     }
+}
+
+void printTurn(const std::vector<std::vector<Piece>>& board) {
+    if (getCurrentPlayer(board) == Piece::Player1) {
+        std::cout << "Player 1's turn:\n";
+    }
+    else {
+        std::cout << "Player 2's turn:\n";
+    }
+}
+
+void play(std::vector<std::vector<Piece>>& board, int column) {
+    Piece currentPlayer = getCurrentPlayer(board);
+    bool piecePlayed = false;
+    column--;
 
     for (int row = ROWS - 1; row >= 0; --row) {
         if (board[row][column] == Piece::Empty) {
-            board[row][column] = player;
+            board[row][column] = currentPlayer;
+            piecePlayed = true;
+            break;
         }
-        else {
-            std::cout << "Column full. Please choose a different column.\n";
-        }
+    }
+    if (piecePlayed) {
+        std::cout << "Piece played successfully.\n";
+    }
+    else {
+        std::cout << "Column full. Please select a different column.\n";
     }
     
 }
@@ -160,8 +180,8 @@ int main() {
 
             if (choice == 1) {
                 std::cout << "Starting game...\n";
-                status = GameStatus::InProgress;
                 makeBoard(board);
+                status = GameStatus::InProgress;
                 std::cout << "Game started successfully!\n";
             }
             else if (choice == 2) {
@@ -183,10 +203,12 @@ int main() {
             int choice = getInt("Enter choice: ");
 
             if (choice == 1) {
-
+                printTurn(board);
+                int col = getInt("Column: ");
+                play(board, col);
             }
             else if (choice == 2) {
-
+                
             }
             else if (choice == 3) {
                 printRules();
