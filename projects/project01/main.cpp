@@ -1,3 +1,7 @@
+/*
+Used chatgpt to help with the logic of the win conditions. Also used chatgpt if I ran into a bug I couldn't figure out how to fix.
+For example in the print board function I was getting an error for trying to cout an enum, asked gpt and made the pieceToChar func
+*/
 #include <iostream>
 #include <limits>
 #include <string>
@@ -159,8 +163,94 @@ void play(std::vector<std::vector<Piece>>& board, int column) {
     
 }
 
-void gameStatus() {
+bool checkWin(const std::vector<std::vector<Piece>>& board, Piece player) {
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col <= COLS - 4; ++col) {
+            if (board[row][col] == player &&
+                board[row][col + 1] == player &&
+                board[row][col + 2] == player &&
+                board[row][col + 3] == player) {
+                return true;
+            }
+        }
+    }
+    for (int col = 0; col < COLS; ++col) {
+        for (int row = 0; row <= ROWS - 4; ++row) {
+            if (board[row][col] == player &&
+                board[row + 1][col] == player &&
+                board[row + 2][col] == player &&
+                board[row + 3][col] == player) {
+                return true;
+            }
+        }
+    }
+    for (int row = 3; row < ROWS; ++row) {
+        for (int col = 0; col <= COLS - 4; ++col) {
+            if (board[row][col] == player &&
+                board[row - 1][col + 1] == player &&
+                board[row - 2][col + 2] == player &&
+                board[row - 3][col + 3] == player) {
+                return true;
+            }
+        }
+    }
+    for (int row = 0; row <= ROWS - 4; ++row) {
+        for (int col = 0; col <= COLS - 4; ++col) {
+            if (board[row][col] == player &&
+                board[row + 1][col + 1] == player &&
+                board[row + 2][col + 2] == player &&
+                board[row + 3][col + 3] == player) {
+                return true;
+            }
+        }
+    }
 
+    return false;
+}
+
+bool isBoardFull(const std::vector<std::vector<Piece>>& board) {
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            if (board[row][col] == Piece::Empty) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+GameStatus gameStatus(const std::vector<std::vector<Piece>>& board) {
+    if (checkWin(board, Piece::Player1)) {
+        return GameStatus::Player1Wins;
+    }
+    else if (checkWin(board, Piece::Player2)) {
+        return GameStatus::Player2Wins;
+    }
+    else if (isBoardFull(board)) {
+        return GameStatus::Draw;
+    }
+    else {
+        return GameStatus::InProgress;
+    }
+}
+
+bool printStatus(const std::vector<std::vector<Piece>>& board) {
+    if (gameStatus(board) == GameStatus::Player1Wins) {
+        std::cout << "Player 1 wins!\n";
+        return true;
+    }
+    else if (gameStatus(board) == GameStatus::Player2Wins) {
+        std::cout << "Player 2 wins!\n";
+        return true;
+    }
+    else if (gameStatus(board) == GameStatus::Draw) {
+        std::cout << "The game was a draw!\n";
+        return true;
+    }
+    else {
+        std::cout << "Game is still ongoing.\n";
+        return false;
+    }
 }
 
 int main() {
@@ -204,11 +294,27 @@ int main() {
 
             if (choice == 1) {
                 printTurn(board);
-                int col = getInt("Column: ");
-                play(board, col);
+                while (true) {
+                    int col = getInt("Column: ");
+                    if (col > 0 && col <= COLS) {
+                        play(board, col);
+                        break;
+                    }
+                    else {
+                        std::cout << "Invalid column number. Enter a number 1-7\n";
+                    }
+                }
+                if (printStatus(board)) {
+                    printBoard(board);
+                    status = GameStatus::NotStarted;
+                    board.clear();
+                }
             }
             else if (choice == 2) {
-                
+                if (printStatus(board)) {
+                    status = GameStatus::NotStarted;
+                    board.clear();
+                }
             }
             else if (choice == 3) {
                 printRules();
