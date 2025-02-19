@@ -4,7 +4,11 @@
 #include <cctype>
 #include <vector>
 
-const int ROWS{ 6 }, COLS{ 7 };
+enum class Piece {
+    Empty = ' ',
+    Player1 = 'X',
+    Player2 = 'O'
+};
 
 enum class GameStatus {
     NotStarted,
@@ -13,6 +17,8 @@ enum class GameStatus {
     Player2Wins,
     Draw
 };
+
+const int ROWS{ 6 }, COLS{ 7 };
 
 bool isNumber(const std::string& str) {
     for (char c : str) {
@@ -72,6 +78,10 @@ char validTwoChar(const std::string& prompt, char a, char b) {
     }
 }
 
+char pieceToChar(Piece piece) {
+    return static_cast<char>(piece);
+}
+
 void printRules() {
     std::cout << "\nTo win the game, players must connect four of their pieces diagonally, horizontally, or vertically.\n"
         "Each player will take turns dropping a piece into a column on the board.\n"
@@ -80,16 +90,53 @@ void printRules() {
         "Good luck and have fun!\n";
 }
 
-void makeBoard() {
+void makeBoard(std::vector<std::vector<Piece>>& board) {
+    board.resize(ROWS, std::vector<Piece>(COLS, Piece::Empty));
+}
+
+void printBoard(const std::vector<std::vector<Piece>>& board) {
+    std::cout << std::endl;
+
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            std::cout << "[" << pieceToChar(board[row][col]) << "]";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << " 1  2  3  4  5  6  7" << std::endl;
+}
+
+void play(std::vector<std::vector<Piece>>& board, int column) {
+    int numX{ 0 }, numO{ 0 };
+
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            if (board[row][col] == Piece::Player1) {
+                numX++;
+            }
+            else if (board[row][col] == Piece::Player2) {
+                numO++;
+            }
+        }
+    }
+    Piece player;
+
+    if (numX == 0 || numX > numO) {
+        player = Piece::Player1;
+    }
+    else {
+        player = Piece::Player2;
+    }
+
+    for (int row = ROWS - 1; row >= 0; --row) {
+        if (board[row][column] == Piece::Empty) {
+            board[row][column] = player;
+        }
+        else {
+            std::cout << "Column full. Please choose a different column.\n";
+        }
+    }
     
-}
-
-void printBoard() {
-
-}
-
-void play() {
-
 }
 
 void gameStatus() {
@@ -97,7 +144,7 @@ void gameStatus() {
 }
 
 int main() {
-    std::vector<std::vector<char>> board;
+    std::vector<std::vector<Piece>> board;
     GameStatus status = GameStatus::NotStarted;
 
     std::cout << "Welcome to Connect Four! Below are the rules for playing this game!\n";
@@ -114,6 +161,7 @@ int main() {
             if (choice == 1) {
                 std::cout << "Starting game...\n";
                 status = GameStatus::InProgress;
+                makeBoard(board);
                 std::cout << "Game started successfully!\n";
             }
             else if (choice == 2) {
@@ -125,8 +173,7 @@ int main() {
             }
         }
         else if (status == GameStatus::InProgress) {
-            makeBoard();
-            printBoard();
+            printBoard(board);
 
             std::cout << "\n1. Play Turn\n"
                 "2. Check Game Status\n"
