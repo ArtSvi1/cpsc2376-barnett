@@ -23,6 +23,24 @@ void ConnectFour::checkStatus() {
     }
 }
 
+void ConnectFour::setStatus(std::string input) {
+    if (input == "start") {
+        status = GameStatus::InProgress;
+    }
+    else if (input == "end") {
+        status = GameStatus::NotStarted;
+    }
+    else if (input == "p1") {
+        status = GameStatus::Player1Wins;
+    }
+    else if (input == "p2") {
+        status = GameStatus::Player2Wins;
+    }
+    else if (input == "draw") {
+        status = GameStatus::Draw;
+    }
+}
+
 bool ConnectFour::printStatus() {
     if (status == GameStatus::Player1Wins) {
         std::cout << "Player 1 wins!\n";

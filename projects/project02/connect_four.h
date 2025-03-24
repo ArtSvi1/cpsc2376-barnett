@@ -19,6 +19,7 @@ public:
 	ConnectFour();
 	GameStatus getStatus() const;
 	void checkStatus();
+	void setStatus(std::string input);
 	bool printStatus();
 	char pieceToChar(Piece piece) const;
 	void display() const;
