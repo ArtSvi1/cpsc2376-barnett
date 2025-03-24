@@ -3,7 +3,7 @@
 #include <vector>
 
 class ConnectFour {
-private:
+public:
 	enum Piece {
 		Empty = ' ',
 		Player1 = 'X',
@@ -16,13 +16,9 @@ private:
 		Player2Wins,
 		Draw
 	};
-	std::vector<std::vector<Piece>> board;
-	GameStatus status;
-	const int ROWS = 6;
-	const int COLS = 7;
-public:
 	ConnectFour();
 	GameStatus getStatus() const;
+	void checkStatus();
 	bool printStatus();
 	char pieceToChar(Piece piece) const;
 	void display() const;
@@ -31,4 +27,10 @@ public:
 	void play(int column);
 	bool checkWin(Piece player);
 	bool isBoardFull() const;
+	void resetBoard();
+private:
+	std::vector<std::vector<Piece>> board;
+	GameStatus status;
+	const int ROWS = 6;
+	const int COLS = 7;
 };

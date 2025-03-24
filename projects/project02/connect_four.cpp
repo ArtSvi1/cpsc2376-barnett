@@ -1,10 +1,26 @@
 #include "connect_four.h"
 
-ConnectFour::ConnectFour() : board(ROWS, std::vector<Piece>(COLS, Piece::Empty)), status(GameStatus::NotStarted) {
+ConnectFour::ConnectFour() : status(NotStarted) {
+    board.resize(ROWS, std::vector<Piece>(COLS, Empty));
 }
 
 ConnectFour::GameStatus ConnectFour::getStatus() const {
     return this->status;
+}
+
+void ConnectFour::checkStatus() {
+    if (checkWin(Piece::Player1)) {
+        status = GameStatus::Player1Wins;
+    }
+    else if (checkWin(Piece::Player2)) {
+        status = GameStatus::Player2Wins;
+    }
+    else if (isBoardFull()) {
+        status = GameStatus::Draw;
+    }
+    else {
+        status = GameStatus::InProgress;
+    }
 }
 
 bool ConnectFour::printStatus() {
@@ -143,7 +159,7 @@ bool ConnectFour::checkWin(Piece player) {
             }
         }
     }
-    
+
     // No win con found
     return false;
 }
@@ -157,4 +173,14 @@ bool ConnectFour::isBoardFull() const {
         }
     }
     return true;
+}
+
+void ConnectFour::resetBoard() {
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            board[row][col] = Piece::Empty;
+        }
+    }
+
+    status = GameStatus::NotStarted;
 }
