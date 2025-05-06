@@ -1,3 +1,11 @@
+/*
+I used chatgpt to help me to create some of the extra effects I wanted to make my text blink on and off for
+starting the game and flashing back and forth between the winner text and the option to restart.
+I also used to to help change the shapes of the slots on the game board to be circles as well as to get the colors
+I wanted to be used for the pieces and board.
+Also used chat gpt to help when I was struggling with getting the column numbers and rows to be cenetered to each column
+and row, then to get the game score on the top right positioned the way I wanted it to be.
+*/
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <iostream>
